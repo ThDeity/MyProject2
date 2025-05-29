@@ -26,10 +26,6 @@ APendulum::APendulum()
     BallMesh = CreateDefaultSubobject<UStaticMeshComponent>("BallMesh");
     BallMesh->SetupAttachment(PivotPoint);
 
-    CurrentAngle = InitialAngle;
-    AngularVelocity = 0.0f;
-    CurrentDisplacement = PendulumLength * FMath::Sin(CurrentAngle);
-
     static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereMesh(TEXT("/Engine/BasicShapes/Sphere"));
     if (SphereMesh.Succeeded())
     {
@@ -67,7 +63,6 @@ void APendulum::BeginPlay()
     Super::BeginPlay();
 
     CurrentAngle = InitialAngle;
-    CurrentDisplacement = PendulumLength * FMath::Sin(CurrentAngle);
 
     // ��������� ����
     StringMesh->SetRelativeScale3D(FVector(StringThickness / 50.f, StringThickness / 50.f, PendulumLength / 100.f));
@@ -82,14 +77,11 @@ void APendulum::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    CurrentDisplacement = PendulumLength * FMath::Sin(CurrentAngle);
-    UE_LOG(LogTemp, Warning, TEXT("Amplitude: %f"), CurrentDisplacement); // Логирование
     if (GraphWidget)
     {
-        GraphWidget->SetAngleData(CurrentDisplacement); // Передаем текущий угол
+        GraphWidget->SetAngleData(CurrentAngle); // Передаем текущий угол
         GraphWidget->SetVelocityData(AngularVelocity); // Передаем текущую скорость
     }
-
 
     // Физика маятника с "умным" затуханием
     float AngularAcceleration = -(Gravity / PendulumLength) * FMath::Sin(CurrentAngle);

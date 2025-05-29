@@ -58,5 +58,4 @@ public:
 private:
     float CurrentAngle; // ������� ���� (�������)
     float AngularVelocity; // ������� ��������
-    float CurrentDisplacement = 0;
 };
