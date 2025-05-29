@@ -12,6 +12,7 @@
 
 // Включает GameplayStatics для использования утилит, таких как поиск акторов по тегу или классу.
 #include <Kismet/GameplayStatics.h>
+#include "Pendulum.h"
 
 // Реализация метода BeginPlay, вызываемого при старте игры для инициализации логики контроллера игрока.
 void AMyPlayerController::BeginPlay()
@@ -46,6 +47,13 @@ void AMyPlayerController::BeginPlay()
         // Передаём пустой массив в GraphWidget для инициализации.
         GraphWidget->SetDataPoints(CubeOffsets);
     }
+
+    if (SpeedWidget)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("NENENENENENE"));
+        PendulumSpeed.Empty();
+        SpeedWidget->SetDataPoints(PendulumSpeed);
+    }
 }
 
 // Реализация метода Tick, выз—weемого каждый кадр для обновления логики.
@@ -57,19 +65,6 @@ void AMyPlayerController::Tick(float DeltaTime)
     // Проверяем, существует ли куб (MovingCube) для отслеживания.
     if (MovingCube)
     {
-        // Получаем текущее игровое время (в секундах) для синусоидального движения.
-        float Time = GetWorld()->GetTimeSeconds();
-        // Копируем начальную позицию куба, чтобы вычислить новую позицию.
-        FVector NewLocation = InitialCubePosition;
-        // Добавляем синусоидальное смещение по оси Y (±100 единиц) на основе времени.
-        //NewLocation.Y += FMath::Sin(Time) * 100.0f;
-        
-        // Устанавливаем новую позицию куба в мире.
-        //MovingCube->SetActorLocation(NewLocation);
-
-        // Вычисляем смещение по оси Y относительно начальной позиции.
-        float Offset = NewLocation.Y - InitialCubePosition.Y;
-
         // Получаем текущий Pitch (ось X)
         float CurrentPitch = MovingCube->GetActorRotation().Roll;
         // Вычисляем разницу с учётом кругового характера углов
@@ -77,10 +72,6 @@ void AMyPlayerController::Tick(float DeltaTime)
 
         // Добавляем смещение в массив CubeOffsets для построения графика.
         CubeOffsets.Add(Difference);
-        /*UE_LOG(LogTemp, Warning, TEXT("X: %f"), CurrentPitch);
-        UE_LOG(LogTemp, Warning, TEXT("Y: %f"), MovingCube->GetActorRotation().Yaw);
-        UE_LOG(LogTemp, Warning, TEXT("Z: %f"), MovingCube->GetActorRotation().Roll);
-        UE_LOG(LogTemp, Warning, TEXT("DifferInitialAngle.Pitch: %f"), InitialAngle.Roll)*/
 
         // Ограничиваем размер массива CubeOffsets, чтобы избежать переполнения.
         // Если количество точек превышает MaxPoints, удаляем самую старую точку.
@@ -96,5 +87,15 @@ void AMyPlayerController::Tick(float DeltaTime)
             // Передаём текущий массив CubeOffsets в GraphWidget для отрисовки графика.
             GraphWidget->SetDataPoints(CubeOffsets);
         }
+    }
+
+    if (PendulumComponent)
+    {
+        PendulumSpeed.Add(PendulumComponent->AngularVelocity);
+        if (PendulumSpeed.Num() > MaxPoints)
+            PendulumSpeed.RemoveAt(0);
+
+        if (SpeedWidget)
+            SpeedWidget->SetDataPoints(PendulumSpeed);
     }
 }

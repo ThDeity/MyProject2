@@ -27,35 +27,34 @@ public:
     void SetPendulumLength(float NewLength);
 
     virtual void Tick(float DeltaTime) override;
-    // � ����� APendulum ���������:
+
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum Settings", meta = (ClampMin = "0.0", ClampMax = "1.0"))
-    float DampingFactor = 0.02f; // ����������� ��������� (0 = ��� ���������, 1 = ���������� ���������)
-
-    // ����������
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    USceneComponent* PivotPoint; // ����� �������
+    float DampingFactor = 0.02f;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    UStaticMeshComponent* BallMesh; // �����
+    USceneComponent* PivotPoint;
 
-    // ��������� ��������� ��� ����
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    UStaticMeshComponent* BallMesh;
+
     UPROPERTY(VisibleAnywhere)
     UStaticMeshComponent* StringMesh;
 
-    // ��������� ��������
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum Settings")
-    float PendulumLength = 200; // ����� ���� (� ��)
+    float PendulumLength = 200;
 
     UPROPERTY(EditAnywhere, Category = "Pendulum Settings")
-    float StringThickness = 5.f; // ������� ����
-
-    UPROPERTY(EditAnywhere, Category = "Pendulum Settings")
-    float Gravity = 9.81f; // ��������� ���������� �������
+    float StringThickness = 5.f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum Settings")
-    float InitialAngle = 0.5f; // ��������� ���� (� ��������)
+    float Gravity = 9.81f;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum Settings")
+    float InitialAngle = 0.5f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum Settings")
+    float AngularVelocity;
 private:
-    float CurrentAngle; // ������� ���� (�������)
-    float AngularVelocity; // ������� ��������
+    float CurrentAngle;
+    //float AngularVelocity;
 };

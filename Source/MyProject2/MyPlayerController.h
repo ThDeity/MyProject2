@@ -3,6 +3,7 @@
 
 // Включает минимальный набор базовых определений Unreal Engine, необходимых для большинства классов (например, FString, TArray, FVector).
 #include "CoreMinimal.h"
+#include "Pendulum.h"
 
 // Включает класс PlayerController, который является базовым для управления игроком в игре.
 #include "GameFramework/PlayerController.h"
@@ -45,6 +46,12 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graph")
     UGraphWidget* GraphWidget;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graph")
+    UGraphWidget* SpeedWidget;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graph")
+    APendulum* PendulumComponent;
+
     // Ссылка на куб (AActor), который будет отслеживаться для построения графика.
     // EditAnywhere: Можно задать в редакторе или Blueprints (например, указать актор с тегом MovingCube).
     // BlueprintReadWrite: Доступна для чтения и записи в Blueprints.
@@ -69,6 +76,9 @@ public:
     // Category = "Graph": Группирует переменную в категории "Graph".
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Graph")
     TArray<float> CubeOffsets;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Graph")
+    TArray<float> PendulumSpeed;
 
     // Максимальное количество точек в массиве CubeOffsets, чтобы ограничить размер графика.
     // EditAnywhere: Можно редактировать в редакторе и Blueprints.
