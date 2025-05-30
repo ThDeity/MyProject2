@@ -49,7 +49,7 @@ public:
     UPROPERTY(EditAnywhere, Category = "Pendulum Settings")
     float StringThickness = 5.f; // ������� ����
 
-    UPROPERTY(EditAnywhere, Category = "Pendulum Settings")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum Settings")
     float Gravity = 9.81f; // ��������� ���������� �������
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum Settings")
