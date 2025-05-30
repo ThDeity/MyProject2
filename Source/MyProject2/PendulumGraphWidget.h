@@ -1,4 +1,4 @@
-п»ї#pragma once
+#pragma once
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
@@ -10,29 +10,29 @@ class   MYPROJECT2_API UPendulumGraphWidget : public UUserWidget
     GENERATED_BODY()
 
 public:
-    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ)
+    // Устанавливает данные для графика амплитуды (угол)
     UFUNCTION(BlueprintCallable, Category = "Pendulum Graph")
     void SetAngleData(const float& val);
 
-    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    // Устанавливает данные для графика скорости
     UFUNCTION(BlueprintCallable, Category = "Pendulum Graph")
     void SetVelocityData(const float& val);
 
 protected:
-    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    // Переопределяем отрисовку
     virtual int32 NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry,
         const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements,
         int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
 
 private:
-    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    // Данные для графиков
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pendulum Graph", meta = (AllowPrivateAccess = "true"))
     TArray<float> AnglePoints;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pendulum Graph", meta = (AllowPrivateAccess = "true"))
     TArray<float> VelocityPoints;
 
-    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    // Настройки графиков
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum Graph", meta = (AllowPrivateAccess = "true"))
     FLinearColor AngleColor = FLinearColor::Blue;
 

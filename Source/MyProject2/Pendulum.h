@@ -55,6 +55,12 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum Settings")
     float AngularVelocity;
 private:
+<<<<<<< HEAD
     float CurrentAngle;
     //float AngularVelocity;
+=======
+    float CurrentAngle; // ������� ���� (�������)
+    float AngularVelocity; // ������� ��������
+    float CurrentDisplacement = 0;
+>>>>>>> parent of d954649 (AmplitudeGraph)
 };
