@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "PendulumGraphWidget.h"
+#include "GraphWidget.h"
 #include "Pendulum.generated.h"
 
 UCLASS()
@@ -17,14 +17,20 @@ protected:
     virtual void BeginPlay() override;
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum")
-    UPendulumGraphWidget* GraphWidget;
-
     UFUNCTION(BlueprintCallable, Category = "Pendulum")
     void ResetSimulation();
 
     UFUNCTION(BlueprintCallable, Category = "Pendulum")
     void SetPendulumLength(float NewLength);
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pendulum")
+    UGraphWidget* GraphWidget;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Graph")
+    TArray<float> PendulumSpeeds;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graph")
+    int32 MaxPoints = 50;
 
     virtual void Tick(float DeltaTime) override;
     // � ����� APendulum ���������:

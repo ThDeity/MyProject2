@@ -31,6 +31,15 @@ APendulum::APendulum()
     {
         BallMesh->SetStaticMesh(SphereMesh.Object);
     }
+
+    if (GraphWidget)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("HEHEHEHEHEHE"));
+        // Очищаем массив CubeOffsets перед началом, чтобы начать с пустого графика.
+        PendulumSpeeds.Empty();
+        // Передаём пустой массив в GraphWidget для инициализации.
+        GraphWidget->SetDataPoints(PendulumSpeeds);
+    }
 }
 
 void APendulum::ResetSimulation()
@@ -77,12 +86,6 @@ void APendulum::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    if (GraphWidget)
-    {
-        GraphWidget->SetAngleData(CurrentAngle); // Передаем текущий угол
-        GraphWidget->SetVelocityData(AngularVelocity); // Передаем текущую скорость
-    }
-
     // Физика маятника с "умным" затуханием
     float AngularAcceleration = -(Gravity / PendulumLength) * FMath::Sin(CurrentAngle);
 
@@ -100,6 +103,19 @@ void APendulum::Tick(float DeltaTime)
     else
     {
         CurrentAngle += AngularVelocity * DeltaTime;
+    }
+
+    if (GraphWidget)
+    {
+        PendulumSpeeds.Add(AngularVelocity);
+        if (PendulumSpeeds.Num() > MaxPoints)
+            PendulumSpeeds.RemoveAt(0);
+
+        if (GraphWidget)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("AngularVelocity: %f"), AngularVelocity);
+            GraphWidget->SetDataPoints(PendulumSpeeds);
+        }
     }
 
     PivotPoint->SetRelativeRotation(FRotator(0, 0, FMath::RadiansToDegrees(CurrentAngle)));
